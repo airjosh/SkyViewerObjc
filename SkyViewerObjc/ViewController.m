@@ -14,8 +14,8 @@
 
 @implementation ViewController
 
-static NSString *SimpleTableIdentifier = @"Picture";
-static NSString *StoryboardDetailsId = @"Detail";
+static NSString * const kSimpleTableIdentifier = @"Picture";
+static NSString * const kStoryboardDetailsId = @"Detail";
 
 #pragma mark - Lifecycle
 
@@ -44,17 +44,17 @@ static NSString *StoryboardDetailsId = @"Detail";
     [self.tableData sortUsingSelector:@selector(compare:)];
 }
 
-#pragma mark - TableView Delegates
+#pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.tableData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleTableIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSimpleTableIdentifier forIndexPath:indexPath];
     if(cell == nil) {
        // No cells in reuse pool, so we have to create a new one.
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SimpleTableIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSimpleTableIdentifier];
     }
     cell.textLabel.text = self.tableData[indexPath.row];
     return cell;
@@ -62,13 +62,13 @@ static NSString *StoryboardDetailsId = @"Detail";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.storyboard != nil) {
-        DetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:StoryboardDetailsId];
+        DetailViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:kStoryboardDetailsId];
         vc.imageToLoad = self.tableData[indexPath.row]; // Set the exposed property
         vc.title = [[NSString alloc] initWithFormat:@"Picture %lu of %lu",indexPath.row+1,self.tableData.count];
         [self.navigationController pushViewController:vc animated:NO];
     }
 }
 
-#pragma mark - Objects
+#pragma mark - NSObject
 
 @end
