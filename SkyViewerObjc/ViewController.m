@@ -25,6 +25,9 @@ static NSString * const kStoryboardDetailsId = @"Detail";
     self.title = @"Sky Viewer";
     self.navigationController.navigationBar.prefersLargeTitles = true;
     
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self  action:@selector(likeApp)];
+    [self.navigationItem setRightBarButtonItem:item animated:YES];
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *filePath = [[NSBundle mainBundle] resourcePath];
     NSError *error;
@@ -70,5 +73,19 @@ static NSString * const kStoryboardDetailsId = @"Detail";
 }
 
 #pragma mark - NSObject
+
+// method called via selector
+- (void) likeApp {
+    
+    NSArray *items = [NSArray arrayWithObject:@"Hello there! Download this simple made with Swift here https://github.com/airjosh/SkyViewerObjc"];
+    
+    UIActivityViewController * activityViewController = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+    
+    [activityViewController.popoverPresentationController setBarButtonItem: self.navigationItem.rightBarButtonItem];
+    if (activityViewController == nil) {
+       return;
+    }
+    [self presentViewController:activityViewController animated:YES completion:^{}];
+}
 
 @end
